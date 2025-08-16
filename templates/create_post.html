@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Create New Post</h1>
+<form method="POST">
+    <label>Title</label><br>
+    <input type="text" name="title" required><br><br>
+    <label>Content</label><br>
+    <textarea name="content" rows="10" required></textarea><br><br>
+    <button type="submit">Publish</button>
+</form>
+<a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+{% endblock %}

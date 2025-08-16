@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Blog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+        <nav>
+        <button id="darkToggle" class="btn" style="margin-left: 10px;">Dark Mode</button>
+        <a href="{{ url_for('home') }}">Home</a>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}">Register</a>
+        {% endif %}
+    </nav>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flash">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+    <script>
+const toggleBtn = document.getElementById('darkToggle');
+const body = document.body;
+
+// Check if user has a saved preference
+if(localStorage.getItem('theme') === 'dark'){
+    body.classList.add('dark-mode');
+}
+
+toggleBtn.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+    // Save preference
+    if(body.classList.contains('dark-mode')){
+        localStorage.setItem('theme', 'dark');
+        toggleBtn.textContent = 'Light Mode';
+    } else {
+        localStorage.setItem('theme', 'light');
+        toggleBtn.textContent = 'Dark Mode';
+    }
+});
+
+// Set initial button text
+if(body.classList.contains('dark-mode')){
+    toggleBtn.textContent = 'Light Mode';
+} else {
+    toggleBtn.textContent = 'Dark Mode';
+}
+</script>
+</body>
+</html>
